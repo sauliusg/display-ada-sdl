@@ -38,6 +38,6 @@ begin
          Iterate (B);
       end loop;
       
-      delay 0.001;
+      delay 0.0001;
    end loop;   
 end Ten_Bouncing_Balls;
