@@ -29,7 +29,14 @@ ${BIN_DIR}/%: ${PRG_DIR}/%.adb
 		-Ilibs/Game_Support/src \
 		-Ilibs/GNAT_SDL/src \
 		-D ${OBJ_DIR} \
-		-o $@ $<
+		-o $@ $< \
+		-largs \
+		-lGL \
+		-lGLU \
+		-lSDL \
+		-lSDL2_ttf \
+	#
+
 
 ${PRG_DIR}/.%.d: ${PRG_DIR}/%.adb
 	gnatmake -I${SRC_DIR} -D ${OBJ_DIR} -M $< \
