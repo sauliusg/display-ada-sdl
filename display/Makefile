@@ -34,7 +34,7 @@ ${BIN_DIR}/%: ${PRG_DIR}/%.adb
 		-lGL \
 		-lGLU \
 		-lSDL \
-		-lSDL2_ttf \
+		-lSDL_ttf \
 	#
 
 
