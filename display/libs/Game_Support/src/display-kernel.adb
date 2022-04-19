@@ -525,7 +525,8 @@ package body Display.Kernel is
 
       C_String := New_String (Obj.D.The_Text.all);
 
-      fntCourrier := TTF_OpenFont (Interfaces.C.Strings.New_String ("C:\Windows\Fonts\arial.ttf"), 12);
+      -- fntCourrier := TTF_OpenFont (Interfaces.C.Strings.New_String ("C:\Windows\Fonts\arial.ttf"), 12);
+      fntCourrier := TTF_OpenFont (Interfaces.C.Strings.New_String ("/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf"), 12);
 
       clrFg := (0, 0, 255, 0);  -- not relevant...
 

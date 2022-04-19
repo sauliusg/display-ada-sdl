@@ -8,6 +8,8 @@ procedure Ball is
       Radius => 10.0,
       Color  => Blue);
    Step : Float := 0.05;
+   
+   Balls_Txt : Shape_Id := New_Text (110.0, 90.0, "Ball count: 1", Yellow);
 begin
    loop
       if Get_X (Ball) > 100.0 then
