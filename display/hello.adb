@@ -48,7 +48,7 @@ procedure Hello is
       --  To center a non-fullscreen window we need to set an environment
       --  variable
 
-      Check (SDL_putenv(New_String ("SDL_VIDEO_CENTERED=center")));
+      -- Check (SDL_putenv(New_String ("SDL_VIDEO_CENTERED=center")));
 
       --  the video info structure contains the current video mode. Prior to
       --  calling setVideoMode, it contains the best available mode
