@@ -102,16 +102,6 @@ procedure Hello is
    procedure Poll_Events is
       Evt : aliased SDL_Event;
 
-      function As_Key (K : Special_Key) return Key_Type is
-      begin
-         return 256 + Special_Key'Pos (K);
-      end As_Key;
-      
-      Up_Arrow    : constant Key_Type := As_Key (KEY_UP);
-      Down_Arrow  : constant Key_Type := As_Key (KEY_DOWN);
-      Left_Arrow  : constant Key_Type := As_Key (KEY_LEFT);
-      Right_Arrow : constant Key_Type := As_Key (KEY_RIGHT);
-
    begin
       while SDL_PollEvent (Evt'Unchecked_Access) /= 0 loop
          case unsigned (Evt.c_type) is
