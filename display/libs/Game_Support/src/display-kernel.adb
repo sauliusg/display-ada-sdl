@@ -368,7 +368,7 @@ package body Display.Kernel is
    --------------------
 
    procedure Reshape (W : Integer; H : Integer) is
-      -- Ratio : GLdouble;
+      Ratio : GLdouble;
    begin
       Window_Width := W;
       Window_Height := H;
@@ -376,21 +376,21 @@ package body Display.Kernel is
       glMatrixMode (GL_PROJECTION);
       glLoadIdentity;
 
-      -- Ratio := GLdouble (w) / GLdouble (h);
+      Ratio := GLdouble (w) / GLdouble (h);
 
-      -- if w > h then
-      --    glOrtho (-100.0 * Ratio, 100.0 * Ratio, -100.0, 100.0, -100.0, 300.0);
-      -- else
-      --    glOrtho (-100.0, 100.0, -100.0 / Ratio, 100.0 / Ratio, -100.0, 300.0);
-      -- end if;
+      if w > h then
+         glOrtho (-100.0 * Ratio, 100.0 * Ratio, -100.0, 100.0, -100.0, 300.0);
+      else
+         glOrtho (-100.0, 100.0, -100.0 / Ratio, 100.0 / Ratio, -100.0, 300.0);
+      end if;
 
-      glOrtho (-100.0, 100.0, -100.0, 100.0, -100.0, 300.0);
+      -- glOrtho (-100.0, 100.0, -100.0, 100.0, -100.0, 300.0);
       -- glOrtho (-100.0*2.0, 100.0*2.0, -100.0*2.0, 100.0*2.0, -100.0, 300.0);
       
       Put_Line (">>> Reshaping Viewport to" & Integer'Image (W) & " x" &
                   Integer'Image (H));
       
-      -- glViewport (0, 0, GLsizei (w), GLsizei (h));
+      glViewport (0, 0, GLsizei (w), GLsizei (h));
       -- glViewport (GLsizei (w)/4, GLsizei (h)/4, GLsizei (w)/4, GLsizei (h)/4);
       glMatrixMode (GL_MODELVIEW);
    end Reshape;
@@ -754,7 +754,7 @@ package body Display.Kernel is
       --  but this SDL variable must have a pointer in it because it can
       --  access the current pixels in the framebuffer.
 
-      surface := SDL_SetVideoMode(int (w), int (h), bpp, flags);
+      surface := SDL_SetVideoMode(int (W), int (H), bpp, flags);
 
       if surface = null then
          Put_Line ("Error setting the video mode");
@@ -841,6 +841,13 @@ package body Display.Kernel is
 
             when SDL_VIDEORESIZE =>
                Reshape (Integer (Evt.resize.w), Integer (Evt.resize.h));
+               surface := SDL_SetVideoMode(int (Evt.resize.w), int (Evt.resize.h), bpp, flags);
+
+               if surface = null then
+                  Put_Line ("Error setting the video mode");
+                  SDL_SDL_h.SDL_Quit;
+                  return;
+               end if;
 
             when SDL_MOUSEBUTTONDOWN =>
                declare
