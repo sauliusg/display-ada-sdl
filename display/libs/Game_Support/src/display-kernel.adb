@@ -387,8 +387,8 @@ package body Display.Kernel is
       -- glOrtho (-100.0, 100.0, -100.0, 100.0, -100.0, 300.0);
       -- glOrtho (-100.0*2.0, 100.0*2.0, -100.0*2.0, 100.0*2.0, -100.0, 300.0);
       
-      Put_Line (">>> Reshaping Viewport to" & Integer'Image (W) & " x" &
-                  Integer'Image (H));
+      -- Put_Line (">>> Reshaping Viewport to" & Integer'Image (W) & " x" &
+      --             Integer'Image (H));
       
       glViewport (0, 0, GLsizei (w), GLsizei (h));
       -- glViewport (GLsizei (w)/4, GLsizei (h)/4, GLsizei (w)/4, GLsizei (h)/4);
@@ -841,14 +841,21 @@ package body Display.Kernel is
 
             when SDL_VIDEORESIZE =>
                Reshape (Integer (Evt.resize.w), Integer (Evt.resize.h));
-               surface := SDL_SetVideoMode(int (Evt.resize.w), int (Evt.resize.h), bpp, flags);
+               
+               declare
+                  Old_Surface : access SDL_Surface := surface;
+               begin
+                  surface := SDL_SetVideoMode(int (Evt.resize.w), int (Evt.resize.h), bpp, flags);
 
-               if surface = null then
-                  Put_Line ("Error setting the video mode");
-                  SDL_SDL_h.SDL_Quit;
-                  return;
-               end if;
-
+                  if surface = null then
+                     Put_Line ("Error setting the video mode");
+                     SDL_SDL_h.SDL_Quit;
+                     return;
+                  end if;
+                  
+                  SDL_FreeSurface (Old_Surface);
+               end;
+               
             when SDL_MOUSEBUTTONDOWN =>
                declare
                   Pos : Mouse_Position := No_Mouse_Position;
