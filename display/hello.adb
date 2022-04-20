@@ -42,13 +42,23 @@ procedure Hello is
          raise Display_Error;
       end if;
    end Check;
-
+   
+   function Unsetenv (variable : Interfaces.C.Strings.chars_ptr) return int is
+   begin
+      declare
+         function Internal (variable : Interfaces.C.Strings.chars_ptr) return int;
+         pragma Import (C, Internal, "unsetenv");
+      begin
+         return Internal(variable);
+      end;
+   end Unsetenv;
+   
    procedure Set_SDL_Video is
    begin
       --  To center a non-fullscreen window we need to set an environment
       --  variable
 
-      -- Check (SDL_putenv(New_String ("SDL_VIDEO_CENTERED=center")));
+      Check (SDL_putenv(New_String ("SDL_VIDEO_CENTERED=center")));
 
       --  the video info structure contains the current video mode. Prior to
       --  calling setVideoMode, it contains the best available mode
@@ -97,6 +107,11 @@ procedure Hello is
          SDL_SDL_h.SDL_Quit;
          return;
       end if;
+      
+      -- Reset the env. variables to avoid a "runnaway window" syndrome:
+      Check (Unsetenv(New_String ("SDL_VIDEO_WINDOW_POS")));
+      Check (Unsetenv(New_String ("SDL_VIDEO_CENTERED")));
+   
    end Set_SDL_Video;
    
    procedure Poll_Events is
