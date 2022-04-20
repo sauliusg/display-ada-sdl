@@ -45,4 +45,24 @@ package body SDL_SDL_stdinc_h is
          end;
       end if;
    end SDL_putenv;
+   
+   function SDL_unsetenv (variable : Interfaces.C.Strings.chars_ptr) return int is
+   begin
+      if Target_OS = Windows then
+         declare
+            -- function Internal (variable : Interfaces.C.Strings.chars_ptr) return int;
+            -- pragma Import (C, Internal, "SDL_putenv");
+         begin
+            -- return Internal(variable);
+            return 0;
+         end;
+      else
+         declare
+            function Internal (variable : Interfaces.C.Strings.chars_ptr) return int;
+            pragma Import (C, Internal, "unsetenv");
+         begin
+            return Internal(variable);
+         end;
+      end if;
+   end SDL_unsetenv;
 end;

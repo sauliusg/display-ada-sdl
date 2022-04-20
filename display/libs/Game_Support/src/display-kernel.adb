@@ -761,6 +761,11 @@ package body Display.Kernel is
          SDL_SDL_h.SDL_Quit;
          return;
       end if;
+      
+      -- Reset the env. variables to avoid a "runnaway window" syndrome:
+      Check (SDL_unsetenv(New_String ("SDL_VIDEO_WINDOW_POS")));
+      Check (SDL_unsetenv(New_String ("SDL_VIDEO_CENTERED")));
+   
    end Set_SDL_Video;
 
    ----------------

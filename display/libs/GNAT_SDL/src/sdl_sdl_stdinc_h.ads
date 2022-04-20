@@ -154,6 +154,8 @@ package SDL_SDL_stdinc_h is
    pragma Import (C, SDL_getenv, "SDL_getenv");
 
    function SDL_putenv (variable : Interfaces.C.Strings.chars_ptr) return int;  -- ../include/SDL/SDL_stdinc.h:224
+   
+   function SDL_unsetenv (variable : Interfaces.C.Strings.chars_ptr) return Int;
 
    function SDL_strlcpy
      (dst : Interfaces.C.Strings.chars_ptr;
