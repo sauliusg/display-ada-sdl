@@ -368,7 +368,7 @@ package body Display.Kernel is
    --------------------
 
    procedure Reshape (W : Integer; H : Integer) is
-      Ratio : GLdouble;
+      -- Ratio : GLdouble;
    begin
       Window_Width := W;
       Window_Height := H;
@@ -376,15 +376,22 @@ package body Display.Kernel is
       glMatrixMode (GL_PROJECTION);
       glLoadIdentity;
 
-      Ratio := GLdouble (w) / GLdouble (h);
+      -- Ratio := GLdouble (w) / GLdouble (h);
 
-      if w > h then
-         glOrtho (-100.0 * Ratio, 100.0 * Ratio, -100.0, 100.0, -100.0, 300.0);
-      else
-         glOrtho (-100.0, 100.0, -100.0 / Ratio, 100.0 / Ratio, -100.0, 300.0);
-      end if;
+      -- if w > h then
+      --    glOrtho (-100.0 * Ratio, 100.0 * Ratio, -100.0, 100.0, -100.0, 300.0);
+      -- else
+      --    glOrtho (-100.0, 100.0, -100.0 / Ratio, 100.0 / Ratio, -100.0, 300.0);
+      -- end if;
 
-      glViewport (0, 0, GLsizei (w), GLsizei (h));
+      glOrtho (-100.0, 100.0, -100.0, 100.0, -100.0, 300.0);
+      -- glOrtho (-100.0*2.0, 100.0*2.0, -100.0*2.0, 100.0*2.0, -100.0, 300.0);
+      
+      Put_Line (">>> Reshaping Viewport to" & Integer'Image (W) & " x" &
+                  Integer'Image (H));
+      
+      -- glViewport (0, 0, GLsizei (w), GLsizei (h));
+      -- glViewport (GLsizei (w)/4, GLsizei (h)/4, GLsizei (w)/4, GLsizei (h)/4);
       glMatrixMode (GL_MODELVIEW);
    end Reshape;
 
