@@ -846,14 +846,13 @@ package body Display.Kernel is
                   Old_Surface : access SDL_Surface := surface;
                begin
                   surface := SDL_SetVideoMode(int (Evt.resize.w), int (Evt.resize.h), bpp, flags);
-
+                  SDL_FreeSurface (Old_Surface);
+                  
                   if surface = null then
                      Put_Line ("Error setting the video mode");
                      SDL_SDL_h.SDL_Quit;
                      return;
                   end if;
-                  
-                  SDL_FreeSurface (Old_Surface);
                end;
                
             when SDL_MOUSEBUTTONDOWN =>
