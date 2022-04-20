@@ -155,4 +155,6 @@ begin
       SDL_Delay (1);
    end loop;
    
+   SDL_SDL_h.SDL_Quit;
+   GNAT.OS_Lib.OS_Exit (0);   
 end Hello;
