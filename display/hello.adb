@@ -43,16 +43,6 @@ procedure Hello is
       end if;
    end Check;
    
-   function Unsetenv (variable : Interfaces.C.Strings.chars_ptr) return int is
-   begin
-      declare
-         function Internal (variable : Interfaces.C.Strings.chars_ptr) return int;
-         pragma Import (C, Internal, "unsetenv");
-      begin
-         return Internal(variable);
-      end;
-   end Unsetenv;
-   
    procedure Set_SDL_Video is
    begin
       --  To center a non-fullscreen window we need to set an environment
@@ -109,8 +99,8 @@ procedure Hello is
       end if;
       
       -- Reset the env. variables to avoid a "runnaway window" syndrome:
-      Check (Unsetenv(New_String ("SDL_VIDEO_WINDOW_POS")));
-      Check (Unsetenv(New_String ("SDL_VIDEO_CENTERED")));
+      Check (SDL_unsetenv(New_String ("SDL_VIDEO_WINDOW_POS")));
+      Check (SDL_unsetenv(New_String ("SDL_VIDEO_CENTERED")));
    
    end Set_SDL_Video;
    
